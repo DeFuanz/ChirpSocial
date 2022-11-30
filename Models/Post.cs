@@ -10,9 +10,5 @@ namespace Chirp.Models
         //Profile Navigation Properties
         public int ProfileID {get; set;}
         public Profile Profile {get; set;} = default!;
-
-        //Replies Navigation Properties
-        public int ReplyID {get; set;}
-        public Reply Reply {get; set;} = default!;
     }
 }

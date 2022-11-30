@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Chirp.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<ChirpDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("ChirpDbContext")));
 
 var app = builder.Build();
 
