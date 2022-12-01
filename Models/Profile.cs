@@ -1,7 +1,7 @@
 
 namespace Chirp.Models
 {
-    public class Profile
+    public class Profile //Model for Profile Data
     {
         public int ProfileID {get; set;} //Profile Primary Key
         public string ProfileUserName {get; set;} = string.Empty;
