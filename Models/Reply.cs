@@ -9,6 +9,8 @@ namespace Chirp.Models
         [Required]
         [StringLength(28, MinimumLength = 1)]
         public string ReplyContent {get; set;} = string.Empty;
+
+        [Display(Name = "Date")]
         public DateTime ReplyDate {get; set;}
 
         //User Navigation Properties

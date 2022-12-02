@@ -27,7 +27,7 @@ namespace ChirpSocial.Pages_Posts
                 return NotFound();
             }
 
-            var post = await _context.Posts.Include(m => m.Profile).ThenInclude(m => m.Replies).FirstOrDefaultAsync(m => m.PostID == id);
+            var post = await _context.Posts.Include(m => m.Profile).Include(m => m.Replies).ThenInclude(m => m.Profile).FirstOrDefaultAsync(m => m.PostID == id);
             if (post == null)
             {
                 return NotFound();
