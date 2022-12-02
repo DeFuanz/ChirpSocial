@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ChirpSocial.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,8 @@ namespace ChirpSocial.Migrations
                 {
                     ProfileID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ProfileUserName = table.Column<string>(type: "TEXT", nullable: false),
-                    ProfileBio = table.Column<string>(type: "TEXT", nullable: false)
+                    ProfileUserName = table.Column<string>(type: "TEXT", maxLength: 30, nullable: false),
+                    ProfileBio = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace ChirpSocial.Migrations
                     PostID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     PostDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    PostContent = table.Column<string>(type: "TEXT", nullable: false),
+                    PostContent = table.Column<string>(type: "TEXT", maxLength: 28, nullable: false),
                     ProfileID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -52,7 +52,7 @@ namespace ChirpSocial.Migrations
                 {
                     ReplyID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ReplyContent = table.Column<string>(type: "TEXT", nullable: false),
+                    ReplyContent = table.Column<string>(type: "TEXT", maxLength: 28, nullable: false),
                     ReplyDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ProfileID = table.Column<int>(type: "INTEGER", nullable: false),
                     PostID = table.Column<int>(type: "INTEGER", nullable: false)

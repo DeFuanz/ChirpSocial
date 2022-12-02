@@ -15,7 +15,7 @@ namespace Chirp.Models
         public int ProfileID {get; set;}
         public Profile? Profile {get; set;}
 
-        //Post Navifation Properties
+        //Post Navigation Properties
         public int PostID {get; set;}
         public Post? Post {get; set;}
     }

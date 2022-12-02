@@ -25,6 +25,7 @@ namespace ChirpSocial.Migrations
 
                     b.Property<string>("PostContent")
                         .IsRequired()
+                        .HasMaxLength(28)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("PostDate")
@@ -48,10 +49,12 @@ namespace ChirpSocial.Migrations
 
                     b.Property<string>("ProfileBio")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProfileUserName")
                         .IsRequired()
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProfileID");
@@ -73,6 +76,7 @@ namespace ChirpSocial.Migrations
 
                     b.Property<string>("ReplyContent")
                         .IsRequired()
+                        .HasMaxLength(28)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ReplyDate")

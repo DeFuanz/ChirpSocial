@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChirpSocial.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
-    [Migration("20221130232015_IntialCreate")]
-    partial class IntialCreate
+    [Migration("20221202044114_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,7 @@ namespace ChirpSocial.Migrations
 
                     b.Property<string>("PostContent")
                         .IsRequired()
+                        .HasMaxLength(28)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("PostDate")
@@ -51,10 +52,12 @@ namespace ChirpSocial.Migrations
 
                     b.Property<string>("ProfileBio")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProfileUserName")
                         .IsRequired()
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProfileID");
@@ -76,6 +79,7 @@ namespace ChirpSocial.Migrations
 
                     b.Property<string>("ReplyContent")
                         .IsRequired()
+                        .HasMaxLength(28)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ReplyDate")

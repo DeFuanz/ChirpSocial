@@ -10,7 +10,7 @@ namespace Chirp.Models
         [Required]
         [StringLength(28, MinimumLength = 1)]
         public string PostContent {get; set;} = string.Empty;
-        public List<Reply> Replies {get; set;} =default!;
+        public List<Reply> Replies {get; set;} = default!;
 
         //Profile Navigation Properties
         public int ProfileID {get; set;}

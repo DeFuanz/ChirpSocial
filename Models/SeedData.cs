@@ -56,6 +56,8 @@ namespace Chirp.Models
                     }
                 );
 
+                context.SaveChanges();
+
                 context.Posts.AddRange(
                     new Post //1
                     {
@@ -68,7 +70,7 @@ namespace Chirp.Models
                             {
                                 ReplyContent = "Glad to be here",
                                 ReplyDate = DateTime.Now,
-                                ProfileID = 3
+                                ProfileID = 3,
                             },
                             new Reply
                             {
