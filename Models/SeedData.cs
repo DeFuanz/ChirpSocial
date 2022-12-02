@@ -270,7 +270,7 @@ namespace Chirp.Models
                     {
                         PostContent = "two can be as bad as one",
                         PostDate = DateTime.Now,
-                        ProfileID = 9
+                        ProfileID = 7
                     },
                     new Post //24
                     {
