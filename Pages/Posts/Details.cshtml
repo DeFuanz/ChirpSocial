@@ -12,6 +12,12 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Post.Profile)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Post.Profile.ProfileUserName)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Post.PostDate)
         </dt>
         <dd class="col-sm-10">
@@ -23,12 +29,17 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Post.PostContent)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Post.Profile)
+    </dl>
+    <dl>
+        @foreach (var r in Model.Post.Replies) //Error "Object reference not set to an instance of an object"
+        {
+            <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => r.ReplyContent)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Post.Profile.ProfileUserName)
+            @Html.DisplayFor(model => r.ReplyContent)
         </dd>
+        }
     </dl>
 </div>
 <div>
