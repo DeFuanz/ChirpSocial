@@ -8,12 +8,27 @@
         background-color: #d3c7e9;
 </style>
 
-<div class="lightpurple">
+<div class="bg-light h-100">
     <div class="text-center">
         <h1 class="display-4">Welcome to Chirp Social</h1>
         <h3>We believe real change starts with no conversation</h3>
     </div>
-    <div class="text-center">
+    <div class="text-center mt-5">
         <p>Please select an account to get started</p>
     </div>
+    <form method="post">
+        <div class="form-group w-25 mx-auto">
+            <select asp-items="Model.ProfileDropDown" asp-for="profile.ProfileID" class="form-control">
+                <option value="">-- Select a Profile --</option>
+            </select>
+            <span asp-validation-for="profile.ProfileID" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3 text-center">
+            <input type="submit" value="Continue" class="btn btn-secondary">
+        </div>
+    </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
