@@ -20,11 +20,15 @@ namespace ChirpSocial.Pages_Posts
 
         public IList<Post> Post { get;set; } = default!;
 
+        [BindProperty(SupportsGet = true)]
+        public int PageNum {get; set;} = 1;
+        public int PageSize {get; set;} = 10;
+
         public async Task OnGetAsync()
         {
             if (_context.Posts != null)
             {
-                Post = await _context.Posts
+                Post = await _context.Posts.Skip((PageNum -1)*PageSize).Take(PageSize)
                 .Include(p => p.Profile).ToListAsync();
             }
         }
