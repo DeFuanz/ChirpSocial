@@ -31,11 +31,15 @@ public class IndexModel : PageModel
 
     public IActionResult OnPost()
     {
-        if (!ModelState.IsValid)
+        var tempProfile = _context.Profiles.Find(profile.ProfileID);
+        if (tempProfile == null)
         {
             return Page();
         }
+        profile = tempProfile;
+        _logger.LogWarning("Going to new page");
 
-        return RedirectToPage("./Index");
+        
+        return RedirectToPage("/Posts/Index", new {id = profile.ProfileID});
     }
 }

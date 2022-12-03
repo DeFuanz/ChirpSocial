@@ -18,21 +18,24 @@ namespace ChirpSocial.Pages_Posts
             _context = context;
         }
 
-      public Post Post { get; set; } = default!; 
+        public Post Post { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public int? CurrentUserID {get; set;} //store user id to pass to other pages
+
+        public async Task<IActionResult> OnGetAsync(int? id, int profileId)
         {
             if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
 
+            CurrentUserID = profileId; //set current user to profileid to pass later
             var post = await _context.Posts.Include(m => m.Profile).Include(m => m.Replies).ThenInclude(m => m.Profile).FirstOrDefaultAsync(m => m.PostID == id);
             if (post == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Post = post;
             }
