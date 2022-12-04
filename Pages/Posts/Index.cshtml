@@ -5,6 +5,14 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .btn-primary {
+        color: #fff;
+        background-color: #c8a4d4;
+        border-color: #c8a4d4;
+    }
+</style>
+
 <div class="container">
     <div class="row">
         <div class="col-4 flex-grow text-center">
@@ -16,10 +24,24 @@
             </div>
         </div>
         <div class="col-8">
-            <div class="bg-white border border-white rounded">
-                <p class="text-end m-2">
-                    <a asp-page="Create" class="btn btn-secondary">New Post</a>
-                </p>
+            <div class="bg-white border border-white rounded d-flex justify-content-between px-3">
+                <div class="d-flex align-items-center">
+                    <div class="form-group">
+                        <form class="">
+                            <select asp-items="Model.SortDropDown" asp-for="@Model.CurrentSort">
+                                <option value="">-- Select Sort--</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="form-group">
+                        <a asp-page="./Index" asp-route-CurrentSort="@Model.CurrentSort" asp-route-profileId="@Model.profile.ProfileID" class="btn btn-secondary btn-sm">Sort</a>
+                    </div>
+                </div>
+                <div class="">
+                    <p class="text-end m-2">
+                        <a asp-page="Create" class="btn btn-primary">New Post</a>
+                    </p>
+                </div>
             </div>
             <dl>
                 @foreach (var item in Model.Post)

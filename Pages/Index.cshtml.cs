@@ -16,7 +16,7 @@ public class IndexModel : PageModel
     [BindProperty]
     [Required]
     public Profile profile {get; set;} = default!;
-    public int SelectedProfileID {get; set;} 
+    
     public IndexModel(ChirpDbContext context, ILogger<IndexModel> logger)
     {
         _context = context;

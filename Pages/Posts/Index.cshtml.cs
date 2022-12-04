@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChirpSocial.Pages_Posts
 {
@@ -29,7 +31,11 @@ namespace ChirpSocial.Pages_Posts
         public int PageSize {get; set;} = 10;
 
         [BindProperty(SupportsGet = true)]
-        public string CurrentSort {get; set;}
+        [Required]
+        public string? CurrentSort {get; set;}
+
+        public SelectList SortDropDown = new SelectList(new[] {"User Ascending", "User Descending"});
+
 
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
@@ -50,14 +56,15 @@ namespace ChirpSocial.Pages_Posts
                 profileId = id;
             }
 
+
             var fetchProfile = await _context.Profiles.Where(p => p.ProfileID == id).FirstOrDefaultAsync();
             profile = fetchProfile;
             
-            _logger.LogWarning(profile.ProfileID.ToString());
+            _logger.LogWarning(CurrentSort);
 
             if (_context.Posts != null)
             {
-                var query = _context.Posts.Select(p => p);
+                var query = _context.Posts.Select(p => p); 
 
                 switch(CurrentSort)
                 {
