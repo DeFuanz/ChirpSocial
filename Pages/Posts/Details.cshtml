@@ -39,7 +39,8 @@
                     if (Model.Post.Profile.ProfileID == Model.CurrentUserID)
                     {
                         <dd>
-                            <a asp-page="./Edit" asp-route-id="@Model.Post?.PostID">Edit</a> |
+                            <a asp-page="./Edit" asp-route-id="@Model.Post?.PostID" asp-route-profileId="@Model.CurrentUserID">Edit</a>
+                            <a asp-page="./Delete" asp-route-id="@Model.Post?.PostID" asp-route-profileId="@Model.CurrentUserID">Delete</a>
                         </dd>
                     }
                 }
@@ -64,7 +65,4 @@
             </div>
         }
     </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Post?.PostID">Edit</a> |
 </div>

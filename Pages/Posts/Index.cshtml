@@ -39,7 +39,6 @@
                                 <div>
                                     <a asp-page="./Details" asp-route-id="@item.PostID" asp-route-profileId="@Model.profile.ProfileID"><img width="25" height="25"
                                         src="conversation.png" alt=""></a> |
-                                    <a asp-page="./Delete" asp-route-id="@item.PostID">Delete</a>
                                 </div>
                             </dd>
                         </div>
@@ -60,8 +59,8 @@
                 }
                 <nav aria-label="Page Naviagation">
                     <ul class="pagination">
-                        <li class="page-item @PrevDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum - 1)">Previous</a></li>
-                        <li class="page-item @NextDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum + 1)">Next</a></li>
+                        <li class="page-item @PrevDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum - 1)" asp-route-profileId="@Model.profile.ProfileID">Previous</a></li>
+                        <li class="page-item @NextDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum + 1)" asp-route-profileId="@Model.profile.ProfileID">Next</a></li>
                     </ul>
                 </nav>
             </dl>
