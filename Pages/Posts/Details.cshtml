@@ -7,7 +7,8 @@
 
 <div class="row w-75 mx-auto">
     <div class="col-sm">
-        <a asp-page="./Index" asp-route-profileId="@Model.CurrentUserID"><img src="/backarrow.png" width="75" height="75"></a>
+        <a asp-page="./Index" asp-route-profileId="@Model.CurrentUserID"><img src="/backarrow.png" width="65"
+                height="65"></a>
     </div>
     <div class="col-sm">
         <h1 class="text-center">Post Details</h1>
@@ -30,20 +31,32 @@
                 <dd class="blockquote text-center">
                     @Html.DisplayFor(model => model.Post.PostContent)
                 </dd>
-                <dd class="d-flex justify-content-between">
+                <dd>
                     <div>
-                        @Html.DisplayFor(model => model.Post.PostDate)
+                        <div>
+                            @Html.DisplayFor(model => model.Post.PostDate)
+                        </div>
                     </div>
-                </dd>
-                @{
+                    <div class="d-flex justify-content-between mt-3">
+                                            @{
                     if (Model.Post.Profile.ProfileID == Model.CurrentUserID)
                     {
-                        <dd>
-                            <a asp-page="./Edit" asp-route-id="@Model.Post?.PostID" asp-route-profileId="@Model.CurrentUserID">Edit</a>
-                            <a asp-page="./Delete" asp-route-id="@Model.Post?.PostID" asp-route-profileId="@Model.CurrentUserID">Delete</a>
-                        </dd>
+
+                        <div>
+                            <a class="text-decoration-none btn btn-secondary" asp-page="./Edit" asp-route-id="@Model.Post?.PostID"
+                        asp-route-profileId="@Model.CurrentUserID"><img src="/pencil.png" width="25" height="25"></a>
+                        </div>
+
+                        <div>
+                            <a class="text-decoration-none btn btn-danger" asp-page="./Delete" asp-route-id="@Model.Post?.PostID"
+                        asp-route-profileId="@Model.CurrentUserID"><img src="/trashcan.png" width="25" height="25"></a>
+                        </div>
                     }
                 }
+                    </div>
+
+                </dd>
+
             </div>
         </div>
     </dl>

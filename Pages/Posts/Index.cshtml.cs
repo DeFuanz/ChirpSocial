@@ -28,8 +28,13 @@ namespace ChirpSocial.Pages_Posts
         public int PageNum {get; set;} = 1;
         public int PageSize {get; set;} = 10;
 
+        [BindProperty(SupportsGet = true)]
+        public string CurrentSort {get; set;}
+
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
+
+
             if (id == null && profileId == null) //if both null, send user to landing page to chose profile
             {
                 return RedirectToPage("/Index");
@@ -52,7 +57,19 @@ namespace ChirpSocial.Pages_Posts
 
             if (_context.Posts != null)
             {
-                Post = await _context.Posts.Skip((PageNum -1)*PageSize).Take(PageSize)
+                var query = _context.Posts.Select(p => p);
+
+                switch(CurrentSort)
+                {
+                    case "user_asc":
+                        query = query.OrderBy(p => p.Profile.ProfileUserName);
+                        break;
+                    case "user_desc":
+                        query = query.OrderByDescending(p => p.Profile.ProfileUserName);
+                        break;
+                }
+
+                Post = await query.Skip((PageNum -1)*PageSize).Take(PageSize)
                 .Include(p => p.Profile).ToListAsync();
             }
             return Page();

@@ -13,6 +13,8 @@ namespace ChirpSocial.Pages_Posts
     {
         private readonly Chirp.Models.ChirpDbContext _context;
 
+        public int? CurrentUserId {get; set;}
+
         public DeleteModel(Chirp.Models.ChirpDbContext context)
         {
             _context = context;
@@ -21,14 +23,19 @@ namespace ChirpSocial.Pages_Posts
         [BindProperty]
       public Post Post { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
-            if (id == null || _context.Posts == null)
+
+            if (id == null || _context.Posts == null || profileId == null)
             {
                 return NotFound();
             }
 
+            CurrentUserId = profileId;
+
             var post = await _context.Posts.FirstOrDefaultAsync(m => m.PostID == id);
+
+            var Profile = await _context.Profiles.Where(p => p.ProfileID == profileId).FirstOrDefaultAsync();
 
             if (post == null)
             {
@@ -41,7 +48,7 @@ namespace ChirpSocial.Pages_Posts
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int? id, int? profileId)
         {
             if (id == null || _context.Posts == null)
             {
@@ -56,7 +63,7 @@ namespace ChirpSocial.Pages_Posts
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new {profileId = profileId});
         }
     }
 }
