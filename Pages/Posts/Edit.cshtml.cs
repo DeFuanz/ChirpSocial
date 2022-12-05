@@ -22,31 +22,43 @@ namespace ChirpSocial.Pages_Posts
         [BindProperty]
         public Post Post { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public DateTime PostDateToday = DateTime.Now;
+        public int? CurrentUserID { get; set; }
+        public Profile? profile { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
-            if (id == null || _context.Posts == null)
+            if (id == null || _context.Posts == null || profileId == null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
+
+            CurrentUserID = profileId;
 
             var post =  await _context.Posts.FirstOrDefaultAsync(m => m.PostID == id);
             if (post == null)
             {
                 return NotFound();
             }
+            
+            profile = await _context.Profiles.Where(p => p.ProfileID == profileId).FirstOrDefaultAsync();
+
             Post = post;
-           ViewData["ProfileID"] = new SelectList(_context.Profiles, "ProfileID", "ProfileUserName");
+
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? profileId)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+
+            Post.PostDate = PostDateToday;
+            Post.ProfileID = profileId.GetValueOrDefault();
 
             _context.Attach(Post).State = EntityState.Modified;
 
@@ -66,7 +78,7 @@ namespace ChirpSocial.Pages_Posts
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new {profileId = profileId});
         }
 
         private bool PostExists(int id)

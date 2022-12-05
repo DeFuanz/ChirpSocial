@@ -5,16 +5,13 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="row w-75 mx-auto">
-    <div class="col-sm">
+<div class="row w-75 mx-auto justify-content-start">
+    <div class="col-4">
         <a asp-page="./Index" asp-route-profileId="@Model.CurrentUserID"><img src="/backarrow.png" width="65"
                 height="65"></a>
     </div>
-    <div class="col-sm">
-        <h1 class="text-center">Post Details</h1>
-    </div>
-    <div class="col-sm">
-
+    <div class="col-4">
+        <h1 class="text-left">Post Details</h1>
     </div>
 </div>
 

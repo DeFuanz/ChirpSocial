@@ -22,9 +22,9 @@ namespace ChirpSocial.Pages_Posts
 
         public int? CurrentUserID {get; set;} //store user id to pass to other pages
 
-        public async Task<IActionResult> OnGetAsync(int? id, int profileId)
+        public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
-            if (id == null || _context.Posts == null)
+            if (id == null || _context.Posts == null || profileId == null)
             {
                 return NotFound();
             }
