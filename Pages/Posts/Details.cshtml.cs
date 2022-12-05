@@ -9,7 +9,7 @@ using Chirp.Models;
 
 namespace ChirpSocial.Pages_Posts
 {
-    public class DetailsModel : PageModel
+    public class DetailsModel : PageModel //View a post with all its details including replies and reply details
     {
         private readonly Chirp.Models.ChirpDbContext _context;
 
@@ -24,13 +24,15 @@ namespace ChirpSocial.Pages_Posts
 
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
-            if (id == null || _context.Posts == null || profileId == null)
+            if (id == null || _context.Posts == null || profileId == null) //redirect to landing page if not logged in
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
 
             CurrentUserID = profileId; //set current user to profileid to pass later
-            var post = await _context.Posts.Include(m => m.Profile).Include(m => m.Replies).ThenInclude(m => m.Profile).FirstOrDefaultAsync(m => m.PostID == id);
+
+            var post = await _context.Posts.Include(m => m.Profile).Include(m => m.Replies).ThenInclude(m => m.Profile).FirstOrDefaultAsync(m => m.PostID == id); //grab post selected from feed
+
             if (post == null)
             {
                 return NotFound();

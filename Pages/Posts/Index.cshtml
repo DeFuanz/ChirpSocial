@@ -1,4 +1,4 @@
-@page
+@page "{searchString?}"
 @model ChirpSocial.Pages_Posts.IndexModel
 
 @{
@@ -25,7 +25,15 @@
         </div>
         <div class="col-8">
             <div class="row align-items-center bg-white border border-white rounded pt-2 pb-2 justify-content-between">
-                <div class="col row">
+                <div class="col row align-items-center">
+                    <div class="col-auto mr-auto">
+                        <form class="pt-3">
+                            <p>
+                                <input type="text" asp-for="SearchString" />
+                                <input asp-route-profileId="@Model.profile.ProfileID" type="submit" value="Search" />
+                            </p>
+                        </form>
+                    </div>
                     <div class="col-auto mr-auto">
                         Sort By:
                     </div>
@@ -37,7 +45,8 @@
                                 startSort = "user_desc";
                             }
                         }
-                        <a class="text-decoration-none" asp-page="./Index" asp-route-PageNum="@Model.PageNum" asp-route-profileId="@Model.CurrentUserID" asp-route-CurrentSort="@startSort">User</a>
+                        <a class="text-decoration-none" asp-page="./Index" asp-route-PageNum="@Model.PageNum"
+                            asp-route-profileId="@Model.CurrentUserID" asp-route-CurrentSort="@startSort">User</a>
                     </div>
                     <div class="col-auto mr-auto">
                         @{
@@ -47,7 +56,8 @@
                                 dateSort = "date_asc";
                             }
                         }
-                        <a class="text-decoration-none" asp-page="./Index" asp-route-PageNum="@Model.PageNum" asp-route-profileId="@Model.CurrentUserID" asp-route-CurrentSort="@dateSort">Date</a>
+                        <a class="text-decoration-none" asp-page="./Index" asp-route-PageNum="@Model.PageNum"
+                            asp-route-profileId="@Model.CurrentUserID" asp-route-CurrentSort="@dateSort">Date</a>
                     </div>
                 </div>
                 <div class="col-auto justify-content-end">
@@ -95,10 +105,12 @@
                 }
                 <nav aria-label="Page Naviagation">
                     <ul class="pagination">
-                        <li class="page-item @PrevDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@dateSort" asp-route-CurrentSort="@startSort"
+                        <li class="page-item @PrevDisabled"><a class="page-link" asp-page="./Index"
+                                asp-route-CurrentSort="@dateSort" asp-route-CurrentSort="@startSort"
                                 asp-route-PageNum="@(Model.PageNum - 1)"
                                 asp-route-profileId="@Model.profile.ProfileID">Previous</a></li>
-                        <li class="page-item @NextDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@dateSort" asp-route-CurrentSort="@startSort"
+                        <li class="page-item @NextDisabled"><a class="page-link" asp-page="./Index"
+                                asp-route-CurrentSort="@dateSort" asp-route-CurrentSort="@startSort"
                                 asp-route-PageNum="@(Model.PageNum + 1)"
                                 asp-route-profileId="@Model.profile.ProfileID">Next</a></li>
                     </ul>

@@ -8,6 +8,7 @@ namespace Chirp.Models
         {
         }
 
+        //data sets
         public DbSet<Profile> Profiles {get; set;} = default!;
         public DbSet<Post> Posts {get; set;} = default!;
         public DbSet<Reply> Replies {get; set;} = default!;

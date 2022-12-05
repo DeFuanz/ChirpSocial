@@ -6,9 +6,9 @@ using Chirp.Models;
 
 namespace ChirpSocial.Pages;
 
-public class IndexModel : PageModel
+public class IndexModel : PageModel //Landing page - requires profile seleciton to continue
 {
-    private readonly ChirpDbContext _context; //Left off adding drop down to select profile
+    private readonly ChirpDbContext _context; 
     private readonly ILogger<IndexModel> _logger;
     public SelectList ProfileDropDown {get; set;} = default!;
     public List<Profile> profiles {get; set;} = default!;
@@ -23,13 +23,13 @@ public class IndexModel : PageModel
         _logger = logger;
     }
 
-    public void OnGet()
+    public void OnGet() //List profiles to select
     {
         profiles = _context.Profiles.ToList();
-        ProfileDropDown = new SelectList(profiles, "ProfileID", "ProfileUserName");
+        ProfileDropDown = new SelectList(profiles, "ProfileID", "ProfileUserName"); 
     }
 
-    public IActionResult OnPost()
+    public IActionResult OnPost() //Verify profile and continue to feed
     {
         var tempProfile = _context.Profiles.Find(profile.ProfileID);
         if (tempProfile == null)
@@ -40,6 +40,6 @@ public class IndexModel : PageModel
         _logger.LogWarning("Going to new page");
 
         
-        return RedirectToPage("/Posts/Index", new {id = profile.ProfileID});
+        return RedirectToPage("/Posts/Index", new {id = profile.ProfileID}); 
     }
 }

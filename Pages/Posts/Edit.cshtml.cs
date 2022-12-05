@@ -10,7 +10,7 @@ using Chirp.Models;
 
 namespace ChirpSocial.Pages_Posts
 {
-    public class EditModel : PageModel
+    public class EditModel : PageModel //Allows for posts to be edited with new content and new datetime
     {
         private readonly Chirp.Models.ChirpDbContext _context;
 
@@ -22,28 +22,28 @@ namespace ChirpSocial.Pages_Posts
         [BindProperty]
         public Post Post { get; set; } = default!;
 
-        public DateTime PostDateToday = DateTime.Now;
-        public int? CurrentUserID { get; set; }
+        public DateTime PostDateToday = DateTime.Now; //store todays datetime to update on new post
+        public int? CurrentUserID { get; set; } //store User ID for redirecting and updating posts
         public Profile? profile { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
-            if (id == null || _context.Posts == null || profileId == null)
+            if (id == null || _context.Posts == null || profileId == null) //redirect to landing if not logged in
             {
                 return RedirectToPage("/Index");
             }
 
-            CurrentUserID = profileId;
+            CurrentUserID = profileId; //store userID
 
-            var post =  await _context.Posts.FirstOrDefaultAsync(m => m.PostID == id);
+            var post =  await _context.Posts.FirstOrDefaultAsync(m => m.PostID == id); //grab post that was selected
             if (post == null)
             {
                 return NotFound();
             }
             
-            profile = await _context.Profiles.Where(p => p.ProfileID == profileId).FirstOrDefaultAsync();
+            profile = await _context.Profiles.Where(p => p.ProfileID == profileId).FirstOrDefaultAsync(); //grab profile to get profile info
 
-            Post = post;
+            Post = post; //store grabbed post into property
 
             return Page();
         }
@@ -57,12 +57,13 @@ namespace ChirpSocial.Pages_Posts
                 return Page();
             }
 
-            Post.PostDate = PostDateToday;
-            Post.ProfileID = profileId.GetValueOrDefault();
+            //updating these here to avoid showing them on the front end
+            Post.PostDate = PostDateToday; //override date as todays date before updateing
+            Post.ProfileID = profileId.GetValueOrDefault(); //override profile id before updating
 
-            _context.Attach(Post).State = EntityState.Modified;
+            _context.Attach(Post).State = EntityState.Modified; //update post
 
-            try
+            try //update or throw exception
             {
                 await _context.SaveChangesAsync();
             }
@@ -78,10 +79,10 @@ namespace ChirpSocial.Pages_Posts
                 }
             }
 
-            return RedirectToPage("./Index", new {profileId = profileId});
+            return RedirectToPage("./Index", new {profileId = profileId}); //go back to feed page after update
         }
 
-        private bool PostExists(int id)
+        private bool PostExists(int id) //shorter query for checking if exists above
         {
           return (_context.Posts?.Any(e => e.PostID == id)).GetValueOrDefault();
         }

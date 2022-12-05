@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChirpSocial.Pages_Posts
 {
-    public class CreateModel : PageModel
+    public class CreateModel : PageModel //Create a new post under the users name
     {
         private readonly Chirp.Models.ChirpDbContext _context;
         private readonly ILogger<CreateModel> _logger;
@@ -25,20 +25,20 @@ namespace ChirpSocial.Pages_Posts
         [BindProperty]
         public Post Post { get; set; } = default!;
 
-        public DateTime PostDateToday = DateTime.Now;
-        public int? CurrentUserID { get; set; }
+        public DateTime PostDateToday = DateTime.Now; //store todays datetime to automatically store post date
+        public int? CurrentUserID { get; set; } //store user Id for later
         public Profile? profile { get; set; }
 
         public async Task<IActionResult> OnGet(int? profileId)
         {
             if (profileId == null)
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage("/Index"); //redirect if not logged in
             }
 
-            profile = await _context.Profiles.Where(p => p.ProfileID == profileId).FirstOrDefaultAsync();
+            profile = await _context.Profiles.Where(p => p.ProfileID == profileId).FirstOrDefaultAsync(); //gather progile info to use in creation
 
-            CurrentUserID = profileId;
+            CurrentUserID = profileId; //store profile id in property
 
             return Page();
         }
@@ -47,7 +47,7 @@ namespace ChirpSocial.Pages_Posts
         public async Task<IActionResult> OnPostAsync(int? profileId)
         {
 
-            if (!ModelState.IsValid || _context.Posts == null || Post == null || profileId == null)
+            if (!ModelState.IsValid || _context.Posts == null || Post == null || profileId == null) //show errors for my own sanity
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
 
@@ -60,13 +60,13 @@ namespace ChirpSocial.Pages_Posts
             
             
 
-            Post.PostDate = PostDateToday;
-            Post.ProfileID = profileId.GetValueOrDefault();
+            Post.PostDate = PostDateToday; //override post date to today
+            Post.ProfileID = profileId.GetValueOrDefault(); //override post id to logged in user
 
-            _context.Posts.Add(Post);
+            _context.Posts.Add(Post); //add post
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new {profileId = profileId});
+            return RedirectToPage("./Index", new {profileId = profileId}); //redirect after post saves
         }
     }
 }
