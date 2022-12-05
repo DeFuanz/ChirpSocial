@@ -22,29 +22,29 @@ namespace ChirpSocial.Pages_Posts
             _logger = logger;
         }
 
-        public IList<Post> Post { get;set; } = default!;
-        public Profile profile {get; set;} = default!;
-        
+        public IList<Post> Post { get; set; } = default!;
+        public Profile profile { get; set; } = default!;
+
 
         [BindProperty(SupportsGet = true)]
-        public int PageNum {get; set;} = 1;
-        public int PageSize {get; set;} = 10;
+        public int PageNum { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
 
         [BindProperty(SupportsGet = true)]
         [Required]
-        public string? CurrentSort {get; set;}
-
-        public SelectList SortDropDown = new SelectList(new[] {"User Ascending", "User Descending"});
+        public string CurrentSort { get; set; }
+        public int? CurrentUserID { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
 
-
             if (id == null && profileId == null) //if both null, send user to landing page to chose profile
             {
                 return RedirectToPage("/Index");
             }
+
+            CurrentUserID = profileId;
 
             if (id == null && profileId != null) //is coming back from another page, set id to match profileId
             {
@@ -56,17 +56,19 @@ namespace ChirpSocial.Pages_Posts
                 profileId = id;
             }
 
+            CurrentUserID = profileId;
+
 
             var fetchProfile = await _context.Profiles.Where(p => p.ProfileID == id).FirstOrDefaultAsync();
             profile = fetchProfile;
-            
+
             _logger.LogWarning(CurrentSort);
 
             if (_context.Posts != null)
             {
-                var query = _context.Posts.Select(p => p); 
+                var query = _context.Posts.Select(p => p);
 
-                switch(CurrentSort)
+                switch (CurrentSort)
                 {
                     case "user_asc":
                         query = query.OrderBy(p => p.Profile.ProfileUserName);
@@ -74,9 +76,18 @@ namespace ChirpSocial.Pages_Posts
                     case "user_desc":
                         query = query.OrderByDescending(p => p.Profile.ProfileUserName);
                         break;
+                    case "date_asc":
+                        query = query.OrderBy(p => p.PostDate);
+                        break;
+                    case "date_desc":
+                        query = query.OrderByDescending(p => p.PostDate);
+                        break;
+                    default:
+                        query = query.OrderByDescending(p => p.PostDate);
+                        break;
                 }
 
-                Post = await query.Skip((PageNum -1)*PageSize).Take(PageSize)
+                Post = await query.Skip((PageNum - 1) * PageSize).Take(PageSize)
                 .Include(p => p.Profile).ToListAsync();
             }
             return Page();

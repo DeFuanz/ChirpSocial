@@ -24,24 +24,37 @@
             </div>
         </div>
         <div class="col-8">
-            <div class="bg-white border border-white rounded d-flex justify-content-between px-3">
-                <div class="d-flex align-items-center">
-                    <div class="form-group">
-                        <form class="">
-                            <select asp-items="Model.SortDropDown" asp-for="@Model.CurrentSort">
-                                <option value="">-- Select Sort--</option>
-                            </select>
-                        </form>
+            <div class="row align-items-center bg-white border border-white rounded pt-2 pb-2 justify-content-between">
+                <div class="col row">
+                    <div class="col-auto mr-auto">
+                        Sort By:
                     </div>
-                    <div class="form-group">
-                        <a asp-page="./Index" asp-route-CurrentSort="@Model.CurrentSort" asp-route-profileId="@Model.profile.ProfileID" class="btn btn-secondary btn-sm">Sort</a>
+                    <div class="col-auto mr-auto">
+                        @{
+                            var startSort = "user_asc";
+                            if (Model.CurrentSort == "user_asc")
+                            {
+                                startSort = "user_desc";
+                            }
+                        }
+                        <a class="text-decoration-none" asp-page="./Index" asp-route-PageNum="@Model.PageNum" asp-route-profileId="@Model.CurrentUserID" asp-route-CurrentSort="@startSort">User</a>
+                    </div>
+                    <div class="col-auto mr-auto">
+                        @{
+                            var dateSort = "date_desc";
+                            if (Model.CurrentSort == "date_desc")
+                            {
+                                dateSort = "date_asc";
+                            }
+                        }
+                        <a class="text-decoration-none" asp-page="./Index" asp-route-PageNum="@Model.PageNum" asp-route-profileId="@Model.CurrentUserID" asp-route-CurrentSort="@dateSort">Date</a>
                     </div>
                 </div>
-                <div class="">
-                    <p class="text-end m-2">
-                        <a asp-page="Create" class="btn btn-primary" asp-route-profileId="@Model.profile.ProfileID">New Post</a>
-                    </p>
+                <div class="col-auto justify-content-end">
+                    <a asp-page="Create" class="btn btn-primary" asp-route-profileId="@Model.profile.ProfileID">New
+                        Post</a>
                 </div>
+
             </div>
             <dl>
                 @foreach (var item in Model.Post)
@@ -82,10 +95,10 @@
                 }
                 <nav aria-label="Page Naviagation">
                     <ul class="pagination">
-                        <li class="page-item @PrevDisabled"><a class="page-link" asp-page="./Index"
+                        <li class="page-item @PrevDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@dateSort" asp-route-CurrentSort="@startSort"
                                 asp-route-PageNum="@(Model.PageNum - 1)"
                                 asp-route-profileId="@Model.profile.ProfileID">Previous</a></li>
-                        <li class="page-item @NextDisabled"><a class="page-link" asp-page="./Index"
+                        <li class="page-item @NextDisabled"><a class="page-link" asp-page="./Index" asp-route-CurrentSort="@dateSort" asp-route-CurrentSort="@startSort"
                                 asp-route-PageNum="@(Model.PageNum + 1)"
                                 asp-route-profileId="@Model.profile.ProfileID">Next</a></li>
                     </ul>
