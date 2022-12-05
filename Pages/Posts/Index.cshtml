@@ -30,6 +30,7 @@
                         <form class="pt-3">
                             <p>
                                 <input type="text" asp-for="SearchString" />
+                                <input type="hidden" asp-for="profileId2" value="@Model.profile.ProfileID" /> 
                                 <input asp-route-profileId="@Model.profile.ProfileID" type="submit" value="Search" />
                             </p>
                         </form>

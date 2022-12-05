@@ -35,6 +35,9 @@ namespace ChirpSocial.Pages_Posts
         public string CurrentSort { get; set; }
         public int? CurrentUserID { get; set; }
 
+        [BindProperty(SupportsGet = true)] //store userId after search
+        public int? profileId2 {get; set;}
+
         [BindProperty(SupportsGet = true)] //search bar properties
         public string? SearchString { get; set; }
         // public SelectList? Genres { get; set; }
@@ -45,10 +48,6 @@ namespace ChirpSocial.Pages_Posts
 
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
-
-            _logger.LogWarning(SearchString);
-            _logger.LogWarning(profileId.ToString());
-
             if (id == null && profileId != null) //is coming back from another page, set id to match profileId
             {
                 id = profileId;
@@ -58,6 +57,11 @@ namespace ChirpSocial.Pages_Posts
             {
                 profileId = id;
             }
+            if (profileId2 != null)
+            {
+                id = profileId2;
+                profileId = profileId2;
+            }
             if (id == null && profileId == null) //if both null, send user to landing page to chose profile
             {
                 _logger.LogWarning("redirecting problem");
@@ -66,7 +70,7 @@ namespace ChirpSocial.Pages_Posts
 
             CurrentUserID = profileId;
 
-            var fetchProfile = await _context.Profiles.Where(p => p.ProfileID == id).FirstOrDefaultAsync(); //No idea, but needed this to display profile name
+            var fetchProfile = await _context.Profiles.Where(p => p.ProfileID == id).FirstOrDefaultAsync(); //No idea why, but needed this to display profile name
             profile = fetchProfile;
 
 
@@ -79,7 +83,7 @@ namespace ChirpSocial.Pages_Posts
                     query = query.Where(p => p.PostContent.Contains(SearchString));
                 }
 
-                switch (CurrentSort) //sort posts - date desc is defualted
+                switch (CurrentSort) //sort posts - date desc is defaulted
                 {
                     case "user_asc":
                         query = query.OrderBy(p => p.Profile.ProfileUserName);

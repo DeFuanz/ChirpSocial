@@ -6,21 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChirpSocial.Pages_Posts
 {
     public class DetailsModel : PageModel //View a post with all its details including replies and reply details
     {
         private readonly Chirp.Models.ChirpDbContext _context;
+        private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(Chirp.Models.ChirpDbContext context)
+        public DetailsModel(Chirp.Models.ChirpDbContext context, ILogger<DetailsModel> logger)
         {
+            _logger = logger;
             _context = context;
         }
 
-        public Post Post { get; set; } = default!;
+        public Post Post { get; set; } = default!; //store grabbed post
 
-        public int? CurrentUserID {get; set;} //store user id to pass to other pages
+        [BindProperty]
+        [Required]
+        public Reply Reply { get; set; } = default!; //store a new reply
+
+        public int? CurrentUserID { get; set; } //store user id to pass to other pages
+        public DateTime ReplyDateToday = DateTime.Now; //store todays date and time for new reply
 
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
@@ -33,7 +41,7 @@ namespace ChirpSocial.Pages_Posts
 
             var post = await _context.Posts.Include(m => m.Profile).Include(m => m.Replies).ThenInclude(m => m.Profile).FirstOrDefaultAsync(m => m.PostID == id); //grab post selected from feed
 
-            if (post == null)
+            if (post == null) //verify post is found
             {
                 return NotFound();
             }
@@ -43,5 +51,25 @@ namespace ChirpSocial.Pages_Posts
             }
             return Page();
         }
+
+        public async Task<IActionResult> OnPostAsync(int? profileId, int? postId)
+        {
+            if (profileId == null || postId == null) //make sure required ids are passed or return to login
+            {
+                return RedirectToPage("/Index");
+            }
+
+            Reply.ReplyDate = ReplyDateToday; //override reply date to today
+            Reply.ProfileID = profileId.GetValueOrDefault(); //override reply id to logged in user
+            Reply.PostID = postId.GetValueOrDefault(); //link reply to post via post id
+
+            _logger.LogWarning($"{Reply.ReplyContent} {Reply.ReplyDate} {Reply.ProfileID} {Reply.PostID}"); //for my sanity
+
+            _context.Replies.Add(Reply); //add post
+            await _context.SaveChangesAsync(); //save
+
+            return RedirectToPage("./Details", new {profileId = profileId, id = postId}); //reload same page to view new comments
+        }
     }
 }
+
