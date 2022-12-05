@@ -11,8 +11,8 @@ As the project scaled I quickly ran into project creep as well as getting lines 
 
 **Going Forward**
 The project is not at all perfect. With that, I would really like to continue woorking on is to expand my knowledge with ASP.NET. This includes, but not limited to:
--Cleaning and Organizing the Code
--Learning and implementing authentication to replace passing user id variables
--Relocating some features such as the new post function to go under the profile area on the feed page
--Reply count indicators on each post to show how many replies it has before clicking on in.
--More to be added
+- Cleaning and Organizing the Code
+- Learning and implementing authentication to replace passing user id variables
+- Relocating some features such as the new post function to go under the profile area on the feed page
+- Reply count indicators on each post to show how many replies it has before clicking on in.
+- More to be added
