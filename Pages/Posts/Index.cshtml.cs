@@ -40,11 +40,6 @@ namespace ChirpSocial.Pages_Posts
 
         [BindProperty(SupportsGet = true)] //search bar properties
         public string? SearchString { get; set; }
-        // public SelectList? Genres { get; set; }
-
-        // [BindProperty(SupportsGet = true)]
-        // public string? MovieGenre { get; set; }
-
 
         public async Task<IActionResult> OnGetAsync(int? id, int? profileId)
         {
